@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studi Kasus: SDLC & STLC - ShopEase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 1s ease;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .header-decoration {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: -150px;
+            right: -100px;
+            z-index: 1;
+        }
+
+        .header-decoration:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: auto;
+            bottom: -100px;
+            left: -50px;
+            right: auto;
+        }
+
+        /* Introduction Section */
+        .intro {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 1s ease;
+        }
+
+        .intro h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: inline-block;
+        }
+
+        .highlight {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #3498db;
+        }
+
+        .highlight h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        /* Tabs for SDLC and STLC */
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background-color: #ecf0f1;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            color: #7f8c8d;
+        }
+
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #d5dbdb;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            background-color: white;
+            border-radius: 0 0 12px 12px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            font-size: 1.8rem;
+        }
+
+        /* Stage Cards */
+        .stages-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .stage-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 5px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stage-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .stage-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .card-section {
+            margin-bottom: 15px;
+        }
+
+        .card-section h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-section h4 i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+
+        .card-section ul, .card-section ol {
+            padding-left: 20px;
+        }
+
+        .card-section li {
+            margin-bottom: 5px;
+        }
+
+        .example-box {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .example-box h5 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        /* Diagram */
+        .diagram-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .diagram {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .sdlc-diagram, .stlc-diagram {
+            display: none;
+        }
+
+        .sdlc-diagram.active, .stlc-diagram.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .phase {
+            position: absolute;
+            width: 120px;
+            height: 60px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .phase:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .phase.active {
+            background-color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+
+        .arrow {
+            position: absolute;
+            height: 5px;
+            background-color: #7f8c8d;
+            z-index: 1;
+        }
+
+        .arrow-head {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid #7f8c8d;
+        }
+
+        /* Conclusion */
+        .conclusion {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 1s ease;
+        }
+
+        .conclusion h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2ecc71;
+            display: inline-block;
+        }
+
+        .key-lessons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .lesson-card {
+            background-color: #e8f6f3;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #2ecc71;
+        }
+
+        .lesson-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-reset {
+            background-color: #95a5a6;
+        }
+
+        .btn-reset:hover {
+            background-color: #7f8c8d;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .stages-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .diagram {
+                height: 500px;
+            }
+            
+            .phase {
+                width: 100px;
+                height: 50px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 30px 0;
+            }
+            
+            header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .intro, .content-section, .conclusion {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .diagram {
+                height: 600px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .tab, .btn, .phase:hover {
+                display: none !important;
+            }
+            
+            .content-section {
+                display: block !important;
+                box-shadow: none !important;
+            }
+            
+            .stage-card:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-decoration"></div>
+        <div class="header-decoration"></div>
+        <div class="container">
+            <h1>Studi Kasus: Tahapan Pengembangan dan Pengujian Perangkat Lunak (SDLC & STLC)</h1>
+            <p>Memahami proses pengembangan dan pengujian perangkat lunak melalui studi kasus aplikasi mobile "ShopEase" untuk manajemen toko online</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Introduction -->
+        <section class="intro">
+            <h2>Pendahuluan</h2>
+            <p>SDLC (Software Development Life Cycle) dan STLC (Software Testing Life Cycle) adalah dua kerangka kerja penting dalam pengembangan perangkat lunak. SDLC berfokus pada proses pembangunan sistem, sedangkan STLC berfokus pada proses pengujian untuk memastikan kualitas sistem.</p>
+            <p>Kedua pendekatan ini saling melengkapi dan terintegrasi untuk menghasilkan produk perangkat lunak yang berkualitas, memenuhi kebutuhan pengguna, dan minim bug.</p>
+            
+            <div class="highlight">
+                <h3>Studi Kasus: ShopEase</h3>
+                <p><strong>ShopEase</strong> adalah aplikasi mobile hipotetis untuk manajemen toko online yang dikembangkan oleh tim pengembang dengan tantangan seperti perubahan kebutuhan pengguna dan bug yang ditemukan selama pengujian. Studi kasus ini akan mengilustrasikan bagaimana SDLC dan STLC diterapkan dalam proyek nyata.</p>
+            </div>
+        </section>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-target="sdlc">Tahapan SDLC</div>
+            <div class="tab" data-target="stlc">Tahapan STLC</div>
+        </div>
+
+        <!-- SDLC Content -->
+        <section id="sdlc" class="content-section active">
+            <h2 class="section-title">Tahapan Software Development Life Cycle (SDLC)</h2>
+            <p>SDLC adalah proses sistematis untuk membangun perangkat lunak yang berkualitas dengan biaya efektif dan waktu yang tepat. Berikut adalah tahapan SDLC dalam pengembangan ShopEase:</p>
+            
+            <!-- SDLC Diagram -->
+            <div class="diagram-container">
+                <h3 class="diagram-title">Diagram Alur SDLC ShopEase</h3>
+                <div class="diagram">
+                    <div id="sdlcDiagram" class="sdlc-diagram active">
+                        <!-- Phases will be added by JavaScript -->
+                    </div>
+                </div>
+                <button id="animateSdlc" class="btn">Animasikan Tahapan SDLC</button>
+                <button id="resetSdlc" class="btn btn-reset">Reset Animasi</button>
+            </div>
+            
+            <!-- SDLC Stages -->
+            <div class="stages-container">
+                <!-- Stage 1 -->
+                <div class="stage-card">
+                    <div class="stage-number">1</div>
+                    <h3>Perencanaan (Planning)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Tahap awal untuk menentukan ruang lingkup, tujuan, sumber daya, dan jadwal proyek.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Identifikasi tujuan dan ruang lingkup proyek</li>
+                            <li>Analisis kelayakan teknis dan ekonomi</li>
+                            <li>Pembentukan tim dan alokasi sumber daya</li>
+                            <li>Penyusunan rencana proyek dan jadwal</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Manajemen memutuskan untuk mengembangkan aplikasi mobile ShopEase untuk memudahkan pemilik toko online mengelola produk, pesanan, dan inventori dari perangkat mobile.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>✅</i> Tantangan</h4>
+                        <p>Estimasi waktu dan biaya yang tidak akurat, perubahan ruang lingkup di tengah proyek.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 2 -->
+                <div class="stage-card">
+                    <div class="stage-number">2</div>
+                    <h3>Analisis Kebutuhan (Requirement Analysis)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Proses mengumpulkan dan menganalisis kebutuhan pengguna untuk menentukan fitur dan fungsi sistem.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Wawancara dengan pemilik toko online</li>
+                            <li>Analisis kompetitor aplikasi sejenis</li>
+                            <li>Penyusunan dokumen spesifikasi kebutuhan</li>
+                            <li>Validasi kebutuhan dengan stakeholder</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Ditemukan kebutuhan untuk fitur manajemen produk, pelacakan pesanan, notifikasi stok menipis, dan laporan penjualan harian. Pengguna juga meminta integrasi dengan kurir pengiriman.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>✅</i> Tantangan</h4>
+                        <p>Kebutuhan yang tidak jelas, perubahan kebutuhan selama pengembangan, komunikasi yang kurang efektif dengan pengguna.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 3 -->
+                <div class="stage-card">
+                    <div class="stage-number">3</div>
+                    <h3>Desain (Design)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Menciptakan arsitektur sistem dan desain detail berdasarkan spesifikasi kebutuhan.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Desain arsitektur sistem</li>
+                            <li>Desain antarmuka pengguna (UI/UX)</li>
+                            <li>Desain database dan struktur data</li>
+                            <li>Desain modul dan komponen sistem</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Tim desain membuat wireframe dan mockup aplikasi dengan 5 halaman utama: Dashboard, Produk, Pesanan, Inventori, dan Laporan. Dipilih arsitektur client-server dengan database cloud.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>✅</i> Tantangan</h4>
+                        <p>Desain yang terlalu kompleks, kurangnya pertimbangan skalabilitas, perubahan desain di tengah pengembangan.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 4 -->
+                <div class="stage-card">
+                    <div class="stage-number">4</div>
+                    <h3>Implementasi (Implementation)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Proses pembuatan kode program berdasarkan desain yang telah dibuat.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Pembagian tugas coding ke tim developer</li>
+                            <li>Penulisan kode sesuai standar</li>
+                            <li>Integrasi modul dan komponen</li>
+                            <li>Code review dan optimasi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Developer menggunakan React Native untuk pengembangan aplikasi mobile dan Node.js untuk backend. Dibuat modul manajemen produk dengan CRUD lengkap dan integrasi API kurir.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>✅</i> Tantangan</h4>
+                        <p>Kode yang tidak sesuai standar, kesulitan integrasi modul, bug yang tidak terdeteksi selama coding.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 5 -->
+                <div class="stage-card">
+                    <div class="stage-number">5</div>
+                    <h3>Pengujian (Testing)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Proses verifikasi dan validasi sistem untuk menemukan bug dan memastikan kualitas.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Perencanaan pengujian</li>
+                            <li>Pembuatan test case</li>
+                            <li>Eksekusi pengujian (unit, integrasi, sistem)</li>
+                            <li>Pelaporan bug dan retesting</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Tim QA menemukan bug pada fitur upload gambar produk yang gagal saat jaringan lambat. Juga ditemukan masalah sinkronisasi data ketika aplikasi offline.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>✅</i> Tantangan</h4>
+                        <p>Waktu pengujian yang terbatas, kasus uji yang tidak lengkap, bug yang sulit direproduksi.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 6 -->
+                <div class="stage-card">
+                    <div class="stage-number">6</div>
+                    <h3>Pemeliharaan (Maintenance)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Proses perawatan sistem setelah diluncurkan untuk memastikan kelangsungan operasi.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Perbaikan bug yang ditemukan setelah rilis</li>
+                            <li>Update sistem untuk kompatibilitas</li>
+                            <li>Penambahan fitur baru berdasarkan permintaan</li>
+                            <li>Optimasi performa dan keamanan</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Setelah rilis, pengguna meminta fitur diskon otomatis dan integrasi pembayaran digital baru. Tim juga memperbaiki bug minor yang dilaporkan pengguna.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>✅</i> Tantangan</h4>
+                        <p>Permintaan perubahan yang terus bertambah, kompatibilitas dengan versi OS baru, menjaga performa sistem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STLC Content -->
+        <section id="stlc" class="content-section">
+            <h2 class="section-title">Tahapan Software Testing Life Cycle (STLC)</h2>
+            <p>STLC adalah proses pengujian sistematis yang terintegrasi dalam SDLC untuk memastikan kualitas perangkat lunak. Berikut adalah tahapan STLC dalam pengujian ShopEase:</p>
+            
+            <!-- STLC Diagram -->
+            <div class="diagram-container">
+                <h3 class="diagram-title">Diagram Alur STLC ShopEase</h3>
+                <div class="diagram">
+                    <div id="stlcDiagram" class="stlc-diagram">
+                        <!-- Phases will be added by JavaScript -->
+                    </div>
+                </div>
+                <button id="animateStlc" class="btn">Animasikan Tahapan STLC</button>
+                <button id="resetStlc" class="btn btn-reset">Reset Animasi</button>
+            </div>
+            
+            <!-- STLC Stages -->
+            <div class="stages-container">
+                <!-- Stage 1 -->
+                <div class="stage-card">
+                    <div class="stage-number">1</div>
+                    <h3>Perencanaan Pengujian (Test Planning)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Tahap perencanaan strategi, pendekatan, sumber daya, dan jadwal pengujian.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Menentukan ruang lingkup pengujian</li>
+                            <li>Memilih teknik dan tools pengujian</li>
+                            <li>Mengidentifikasi sumber daya yang dibutuhkan</li>
+                            <li>Membuat jadwal pengujian</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Tim QA merencanakan pengujian fungsional, kinerja, dan kompatibilitas perangkat. Direncanakan 3 siklus pengujian dengan fokus berbeda.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 2 -->
+                <div class="stage-card">
+                    <div class="stage-number">2</div>
+                    <h3>Analisis Kebutuhan Pengujian (Requirement Analysis)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Menganalisis kebutuhan untuk mengidentifikasi apa yang perlu diuji.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Mempelajari dokumen spesifikasi kebutuhan</li>
+                            <li>Mengidentifikasi fitur yang dapat diuji</li>
+                            <li>Mendefinisikan kriteria penerimaan</li>
+                            <li>Mengidentifikasi risiko pengujian</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Dianalisis bahwa fitur upload gambar produk perlu diuji dalam berbagai kondisi jaringan. Fitur checkout juga perlu diuji dengan berbagai metode pembayaran.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 3 -->
+                <div class="stage-card">
+                    <div class="stage-number">3</div>
+                    <h3>Desain Pengujian (Test Design)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Membuat test case dan skenario pengujian berdasarkan analisis kebutuhan.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Membuat test case dan skenario</li>
+                            <li>Menyiapkan data uji</li>
+                            <li>Membuat test script otomasi</li>
+                            <li>Menyiapkan lingkungan pengujian</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Dibuat 50 test case untuk pengujian fungsional, termasuk test case untuk menambahkan produk baru, mengupdate stok, dan memproses pesanan.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 4 -->
+                <div class="stage-card">
+                    <div class="stage-number">4</div>
+                    <h3>Pengembangan Pengujian (Test Development)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Menyiapkan dan mengembangkan alat, skrip, dan lingkungan pengujian.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Menyiapkan lingkungan pengujian</li>
+                            <li>Mengembangkan skrip pengujian otomatis</li>
+                            <li>Menyiapkan data uji</li>
+                            <li>Membuat tool pendukung pengujian</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Disiapkan lingkungan pengujian dengan server staging dan database dummy. Dibuat skrip otomasi menggunakan Selenium untuk pengujian regresi.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 5 -->
+                <div class="stage-card">
+                    <div class="stage-number">5</div>
+                    <h3>Eksekusi Pengujian (Test Execution)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Menjalankan test case dan mencatat hasil pengujian.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Menjalankan test case secara manual/otomatis</li>
+                            <li>Mencatat hasil pengujian</li>
+                            <li>Mengidentifikasi dan melaporkan bug</li>
+                            <li>Melakukan retesting setelah perbaikan bug</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Ditemukan 15 bug selama pengujian, termasuk bug kritis pada fitur checkout yang menyebabkan duplikasi pesanan.</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 6 -->
+                <div class="stage-card">
+                    <div class="stage-number">6</div>
+                    <h3>Pelaporan dan Pelacakan Bug (Test Reporting & Defect Tracking)</h3>
+                    
+                    <div class="card-section">
+                        <h4><i>📋</i> Definisi</h4>
+                        <p>Mendokumentasikan hasil pengujian dan melacak status perbaikan bug.</p>
+                    </div>
+                    
+                    <div class="card-section">
+                        <h4><i>🔧</i> Aktivitas</h4>
+                        <ul>
+                            <li>Membuat laporan hasil pengujian</li>
+                            <li>Melaporkan bug ke tim pengembang</li>
+                            <li>Melacak status perbaikan bug</li>
+                            <li>Memverifikasi perbaikan bug</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h5>Contoh di ShopEase:</h5>
+                        <p>Dibuat laporan pengujian dengan metrik: 85% test case passed, 10% failed, 5% blocked. Bug dilaporkan menggunakan JIRA dengan prioritas dan severity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="conclusion">
+            <h2>Kesimpulan dan Pelajaran dari Studi Kasus ShopEase</h2>
+            <p>Studi kasus pengembangan aplikasi ShopEase menunjukkan bagaimana SDLC dan STLC yang terintegrasi dapat menghasilkan produk perangkat lunak yang berkualitas. Berikut adalah pelajaran penting yang dapat diambil:</p>
+            
+            <div class="key-lessons">
+                <div class="lesson-card">
+                    <h4>Perencanaan yang Matang</h4>
+                    <p>Perencanaan yang detail di awal proyek membantu mengantisipasi tantangan dan mengurangi perubahan mendadak selama pengembangan.</p>
+                </div>
+                
+                <div class="lesson-card">
+                    <h4>Komunikasi Efektif</h4>
+                    <p>Komunikasi yang baik antara tim pengembang, penguji, dan stakeholder memastikan kebutuhan dipahami dengan benar dan mengurangi misinterpretasi.</p>
+                </div>
+                
+                <div class="lesson-card">
+                    <h4>Pengujian Terintegrasi</h4>
+                    <p>Pengujian yang dilakukan sejak awal dan berkelanjutan membantu menemukan bug lebih dini, yang mengurangi biaya perbaikan.</p>
+                </div>
+                
+                <div class="lesson-card">
+                    <h4>Fleksibilitas dan Adaptasi</h4>
+                    <p>Kemampuan beradaptasi terhadap perubahan kebutuhan dan tantangan teknis adalah kunci keberhasilan proyek pengembangan perangkat lunak.</p>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;">Dengan mengikuti SDLC dan STLC secara disiplin, tim pengembangan ShopEase berhasil merilis aplikasi yang memenuhi kebutuhan pengguna, memiliki kualitas baik, dan dapat dipertahankan dalam jangka panjang. Proses iteratif antara pengembangan dan pengujian memastikan bahwa setiap masalah diidentifikasi dan diselesaikan sebelum berdampak pada pengguna akhir.</p>
+        </section>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.tab');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        }
+                    });
+                    
+                    // Show corresponding diagram
+                    if (targetId === 'sdlc') {
+                        document.getElementById('sdlcDiagram').classList.add('active');
+                        document.getElementById('stlcDiagram').classList.remove('active');
+                    } else {
+                        document.getElementById('stlcDiagram').classList.add('active');
+                        document.getElementById('sdlcDiagram').classList.remove('active');
+                    }
+                });
+            });
+            
+            // Create SDLC diagram
+            createSdlcDiagram();
+            
+            // Create STLC diagram
+            createStlcDiagram();
+            
+            // Add animation buttons functionality
+            document.getElementById('animateSdlc').addEventListener('click', animateSdlc);
+            document.getElementById('resetSdlc').addEventListener('click', resetSdlc);
+            document.getElementById('animateStlc').addEventListener('click', animateStlc);
+            document.getElementById('resetStlc').addEventListener('click', resetStlc);
+            
+            // Add hover effect to stage cards
+            const stageCards = document.querySelectorAll('.stage-card');
+            stageCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.animation = 'slideIn 0.3s ease';
+                });
+                
+                card.addEventListener('animationend', function() {
+                    this.style.animation = '';
+                });
+            });
+        });
+        
+        // SDLC Diagram creation
+        function createSdlcDiagram() {
+            const diagram = document.getElementById('sdlcDiagram');
+            
+            // SDLC phases data
+            const sdlcPhases = [
+                {id: 1, name: "Perencanaan", top: "50px", left: "50px", color: "#3498db"},
+                {id: 2, name: "Analisis<br>Kebutuhan", top: "50px", left: "220px", color: "#3498db"},
+                {id: 3, name: "Desain", top: "50px", left: "390px", color: "#3498db"},
+                {id: 4, name: "Implementasi", top: "180px", left: "390px", color: "#3498db"},
+                {id: 5, name: "Pengujian", top: "180px", left: "220px", color: "#3498db"},
+                {id: 6, name: "Pemeliharaan", top: "180px", left: "50px", color: "#3498db"}
+            ];
+            
+            // Create phases
+            sdlcPhases.forEach(phase => {
+                const phaseElement = document.createElement('div');
+                phaseElement.className = 'phase';
+                phaseElement.id = `sdlc-phase-${phase.id}`;
+                phaseElement.innerHTML = phase.name;
+                phaseElement.style.top = phase.top;
+                phaseElement.style.left = phase.left;
+                phaseElement.style.backgroundColor = phase.color;
+                
+                // Add click event to highlight phase
+                phaseElement.addEventListener('click', function() {
+                    // Remove active class from all phases
+                    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked phase
+                    this.classList.add('active');
+                    
+                    // Scroll to corresponding card
+                    const card = document.querySelector(`.stage-card:nth-child(${phase.id})`);
+                    if (card) {
+                        card.scrollIntoView({behavior: 'smooth', block: 'center'});
+                        
+                        // Add temporary highlight to card
+                        card.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.3)';
+                        setTimeout(() => {
+                            card.style.boxShadow = '';
+                        }, 2000);
+                    }
+                });
+                
+                diagram.appendChild(phaseElement);
+            });
+            
+            // Create arrows
+            createArrow(150, 80, 220, 80); // Planning to Analysis
+            createArrow(340, 80, 410, 80); // Analysis to Design
+            createArrow(460, 100, 460, 170); // Design to Implementation
+            createArrow(410, 200, 340, 200); // Implementation to Testing
+            createArrow(220, 200, 150, 200); // Testing to Maintenance
+            
+            function createArrow(x1, y1, x2, y2) {
+                const arrow = document.createElement('div');
+                arrow.className = 'arrow';
+                
+                // Calculate length and angle
+                const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                
+                arrow.style.width = `${length}px`;
+                arrow.style.left = `${x1}px`;
+                arrow.style.top = `${y1}px`;
+                arrow.style.transform = `rotate(${angle}deg)`;
+                arrow.style.transformOrigin = 'top left';
+                
+                diagram.appendChild(arrow);
+                
+                // Add arrow head
+                const arrowHead = document.createElement('div');
+                arrowHead.className = 'arrow-head';
+                arrowHead.style.left = `${x2 - 8}px`;
+                arrowHead.style.top = `${y2 - 5}px`;
+                arrowHead.style.transform = `rotate(${angle}deg)`;
+                
+                diagram.appendChild(arrowHead);
+            }
+        }
+        
+        // STLC Diagram creation
+        function createStlcDiagram() {
+            const diagram = document.getElementById('stlcDiagram');
+            
+            // STLC phases data
+            const stlcPhases = [
+                {id: 1, name: "Perencanaan<br>Pengujian", top: "50px", left: "30px", color: "#e74c3c"},
+                {id: 2, name: "Analisis<br>Kebutuhan", top: "50px", left: "180px", color: "#e74c3c"},
+                {id: 3, name: "Desain<br>Pengujian", top: "50px", left: "330px", color: "#e74c3c"},
+                {id: 4, name: "Pengembangan<br>Pengujian", top: "180px", left: "330px", color: "#e74c3c"},
+                {id: 5, name: "Eksekusi<br>Pengujian", top: "180px", left: "180px", color: "#e74c3c"},
+                {id: 6, name: "Pelaporan &<br>Pelacakan Bug", top: "180px", left: "30px", color: "#e74c3c"}
+            ];
+            
+            // Create phases
+            stlcPhases.forEach(phase => {
+                const phaseElement = document.createElement('div');
+                phaseElement.className = 'phase';
+                phaseElement.id = `stlc-phase-${phase.id}`;
+                phaseElement.innerHTML = phase.name;
+                phaseElement.style.top = phase.top;
+                phaseElement.style.left = phase.left;
+                phaseElement.style.backgroundColor = phase.color;
+                
+                // Add click event to highlight phase
+                phaseElement.addEventListener('click', function() {
+                    // Remove active class from all phases
+                    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked phase
+                    this.classList.add('active');
+                    
+                    // Scroll to corresponding card (STLC cards start from the 7th card)
+                    const cardIndex = phase.id + 6; // SDLC has 6 cards, so STLC starts at 7
+                    const card = document.querySelector(`.stage-card:nth-child(${cardIndex})`);
+                    if (card) {
+                        card.scrollIntoView({behavior: 'smooth', block: 'center'});
+                        
+                        // Add temporary highlight to card
+                        card.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.3)';
+                        setTimeout(() => {
+                            card.style.boxShadow = '';
+                        }, 2000);
+                    }
+                });
+                
+                diagram.appendChild(phaseElement);
+            });
+            
+            // Create arrows
+            createArrow(130, 80, 190, 80); // Planning to Analysis
+            createArrow(280, 80, 340, 80); // Analysis to Design
+            createArrow(380, 100, 380, 170); // Design to Development
+            createArrow(340, 200, 280, 200); // Development to Execution
+            createArrow(190, 200, 130, 200); // Execution to Reporting
+            
+            function createArrow(x1, y1, x2, y2) {
+                const arrow = document.createElement('div');
+                arrow.className = 'arrow';
+                
+                // Calculate length and angle
+                const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                
+                arrow.style.width = `${length}px`;
+                arrow.style.left = `${x1}px`;
+                arrow.style.top = `${y1}px`;
+                arrow.style.transform = `rotate(${angle}deg)`;
+                arrow.style.transformOrigin = 'top left';
+                
+                diagram.appendChild(arrow);
+                
+                // Add arrow head
+                const arrowHead = document.createElement('div');
+                arrowHead.className = 'arrow-head';
+                arrowHead.style.left = `${x2 - 8}px`;
+                arrowHead.style.top = `${y2 - 5}px`;
+                arrowHead.style.transform = `rotate(${angle}deg)`;
+                
+                diagram.appendChild(arrowHead);
+            }
+        }
+        
+        // Animation functions
+        function animateSdlc() {
+            resetSdlc();
+            
+            const phases = document.querySelectorAll('#sdlcDiagram .phase');
+            let delay = 0;
+            
+            phases.forEach((phase, index) => {
+                setTimeout(() => {
+                    phase.classList.add('active');
+                    
+                    // Add corresponding card highlight
+                    const card = document.querySelector(`.stage-card:nth-child(${index + 1})`);
+                    if (card) {
+                        card.style.transform = 'scale(1.05)';
+                        card.style.boxShadow = '0 12px 25px rgba(0, 0, 0, 0.15)';
+                        
+                        setTimeout(() => {
+                            card.style.transform = '';
+                            card.style.boxShadow = '';
+                        }, 1000);
+                    }
+                }, delay);
+                
+                delay += 800;
+            });
+        }
+        
+        function resetSdlc() {
+            document.querySelectorAll('#sdlcDiagram .phase').forEach(phase => {
+                phase.classList.remove('active');
+            });
+        }
+        
+        function animateStlc() {
+            resetStlc();
+            
+            const phases = document.querySelectorAll('#stlcDiagram .phase');
+            let delay = 0;
+            
+            phases.forEach((phase, index) => {
+                setTimeout(() => {
+                    phase.classList.add('active');
+                    
+                    // Add corresponding card highlight (STLC cards start from the 7th card)
+                    const cardIndex = index + 7; // SDLC has 6 cards, so STLC starts at 7
+                    const card = document.querySelector(`.stage-card:nth-child(${cardIndex})`);
+                    if (card) {
+                        card.style.transform = 'scale(1.05)';
+                        card.style.boxShadow = '0 12px 25px rgba(0, 0, 0, 0.15)';
+                        
+                        setTimeout(() => {
+                            card.style.transform = '';
+                            card.style.boxShadow = '';
+                        }, 1000);
+                    }
+                }, delay);
+                
+                delay += 800;
+            });
+        }
+        
+        function resetStlc() {
+            document.querySelectorAll('#stlcDiagram .phase').forEach(phase => {
+                phase.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>
